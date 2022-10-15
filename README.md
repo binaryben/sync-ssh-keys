@@ -1,4 +1,4 @@
-> **Warning**: This software is being developed. Please do not attempt to use it yet.
+> **Warning**: The proposal for this software is currently being developed. Please do not attempt to use it yet.
 
 <br /><br /><div align="center">
 
@@ -14,14 +14,65 @@
 
 ![Divider](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/solar.png)
 
-## ✨ Core features
+## &nbsp; ✨ Core features
 
 * Support for multiple providers
 * Automatic installation of service
 
 ![Divider](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/solar.png)
 
-## 🎨 Prior Art
+## &nbsp; ⌛️ Quick start
+
+### Installation
+
+**Debian / Ubuntu**
+
+```sh
+$ sudo add-apt-repository '{url to repo}'
+$ apt update
+$ apt install sync-ssh-keys
+```
+
+<details>
+
+<summary>Instructions for other operating systems</summary><br />
+
+**macOS**
+
+```sh
+$ brew install sync-ssh-keys
+```
+
+</details>
+
+### ➤ &nbsp; Basic Usage
+
+```sh
+# Save me as an authorized user
+# Replace my username (binaryben) with your own GitHub username below
+$ sync-ssh-keys add --user "binaryben"
+
+# Manually run command to sync the ssh keys
+$ sync-ssh-keys
+```
+
+### ➤ &nbsp; Scheduled updates
+
+```sh
+# Configure `sync-ssh-keys` to run every hour on the hour
+sync-ssh-keys config --cron="0 * * * *"
+
+# Install as a service
+sync-ssh-keys install
+```
+
+### ➤ &nbsp; Advanced usage
+
+Run `sync-ssh-keys --help` for more options
+
+![Divider](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/solar.png)
+
+## &nbsp; 🎨 Prior Art
 
 * https://github.com/samber/sync-ssh-keys
 * https://github.com/shoenig/ssh-key-sync
