@@ -37,11 +37,35 @@ $ apt install sync-ssh-keys
 
 <summary>Instructions for other operating systems</summary><br />
 
+**Alpine**
+
+```sh
+apk add sync-ssh-keys
+```
+
 **macOS**
 
 ```sh
 $ brew install sync-ssh-keys
 ```
+
+> **Warning:** the below distros have not been tested by myself
+
+**CentOS**
+
+TODO:
+
+**OpenSUSE**
+
+TODO:
+
+**FreeBSD**
+
+TODO:
+
+**Fedora**
+
+TODO:
 
 </details>
 
