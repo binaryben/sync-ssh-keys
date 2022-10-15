@@ -14,14 +14,14 @@
 
 ![Divider](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/solar.png)
 
-## &nbsp; ✨ Core features
+## ✨ &nbsp; Core features
 
 * Support for multiple providers
 * Automatic installation of service
 
 ![Divider](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/solar.png)
 
-## &nbsp; ⌛️ Quick start
+## ⌛️ &nbsp; Quick start
 
 ### Installation
 
@@ -96,7 +96,7 @@ Run `sync-ssh-keys --help` for more options
 
 ![Divider](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/solar.png)
 
-## &nbsp; 🎨 Prior Art
+## 🎨 &nbsp; Prior Art
 
 * https://github.com/samber/sync-ssh-keys
 * https://github.com/shoenig/ssh-key-sync
