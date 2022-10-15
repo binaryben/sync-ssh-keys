@@ -5,13 +5,14 @@ author        = "Benny Michaels"
 description   = "Keep ~/.ssh/authorized_keys of a server in sync with public SSH keys"
 license       = "ISC"
 srcDir        = "source"
-bin           = @["sync_ssh_keys"]
+namedBin      = {"main": "sync-ssh-keys"}.toTable()
 binDir        = "bin"
 
 
 # Dependencies
 
 requires "nim >= 1.6.8"
+requires "cligen >= 1.5.30"
 
 # Copy binary to ~/.local/bin if it exists
 # * NOTE: This follows XDG Base Directory Specification
