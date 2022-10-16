@@ -15,7 +15,10 @@ requires "nim >= 1.6.8"
 requires "cligen >= 1.5.30"
 
 # Copy binary to ~/.local/bin if it exists
-# * NOTE: This follows XDG Base Directory Specification
+#[
+  ! NOTE: This follows XDG Base Directory Specification
+  * HINT: These procedures are available: https://nim-lang.org/docs/nimscript.html#12
+]#
 
 before build:
   var localBinPath = getEnv("HOME")
