@@ -1,4 +1,13 @@
 {
+  "nim.buildOnSave": true,
+  "nim.enableNimsuggest": true,
+  "nim.lintOnSave": true,
+  "nim.nimprettyMaxLineLen": 100,
+  "nim.projectMapping": {
+    "projectFile": "source/main.nim",
+    "fileRegex": "source/.*\\.nim"
+  },
+  "peacock.color": "#b35a47",
   "workbench.colorCustomizations": {
     "sash.hoverBorder": "#c47969",
     "statusBar.background": "#b35a47",
@@ -6,6 +15,5 @@
     "statusBarItem.hoverBackground": "#c47969",
     "statusBarItem.remoteBackground": "#b35a47",
     "statusBarItem.remoteForeground": "#e7e7e7"
-  },
-  "peacock.color": "#b35a47"
+  }
 }
