@@ -5,7 +5,7 @@ author        = "Benny Michaels"
 description   = "Keep ~/.ssh/authorized_keys of a server in sync with public SSH keys"
 license       = "ISC"
 srcDir        = "source"
-namedBin      = {"main": "sync-ssh-keys"}.toTable()
+namedBin      = {"main": "ssh-keys"}.toTable()
 binDir        = "bin"
 
 
@@ -19,7 +19,7 @@ requires "cligen >= 1.5.30"
 
 before build:
   var localBinPath = getEnv("HOME")
-  localBinPath.add("/.local/bin/sync-ssh-keys")
+  localBinPath.add("/.local/bin/ssh-keys")
   if(fileExists(localBinPath)):
     echo "Removing copy of sync-ssh-keys from ~/.local/bin/"
     rmFile(localBinPath)
@@ -29,5 +29,5 @@ after build:
   localBinPath.add("/.local/bin/")
   if(dirExists(localBinPath)):
     echo("Copying to ~/.local/bin")
-    localBinPath.add("sync-ssh-keys")
-    cpFile("./bin/sync-ssh-keys", localBinPath)
+    localBinPath.add("ssh-keys")
+    cpFile("./bin/ssh-keys", localBinPath)
