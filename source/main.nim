@@ -1,10 +1,11 @@
-import os
-import cligen
-import add
-import config
-import install
-import remove
-import sync
+import
+  os, cligen
+import
+  add,
+  config,
+  install,
+  remove,
+  sync
 
 when declared(paramStr):
   if paramCount() > 0:
