@@ -11,14 +11,14 @@ when declared(paramStr):
   if paramCount() > 0:
     case paramStr(1):
       of "add":
-        dispatch addAuthorizedUser
+        dispatch(addAuthorizedUser, cmdName="ssh-keys add")
       of "config":
-        dispatch setOrGetConfig
+        dispatch(setOrGetConfig, cmdName="ssh-keys config")
       of "install":
-        dispatch installService
+        dispatch(installService, cmdName="ssh-keys install")
       of "remove":
-        dispatch removeAuthorizedUser
+        dispatch(removeAuthorizedUser, cmdName="ssh-keys remove")
       of "sync":
-        dispatch syncAuthorizedUsers
+        dispatch(syncAuthorizedUsers, cmdName="ssh-keys sync")
   else:
-    dispatch syncAuthorizedUsers
+    dispatch(syncAuthorizedUsers, cmdName="ssh-keys sync")
