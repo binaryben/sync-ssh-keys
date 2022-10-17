@@ -97,6 +97,40 @@ Run `ssh-keys --help` for more options
 
 ![Divider](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/solar.png)
 
+## 🏎💨 &nbsp; Rate limiting
+
+You most likely won't need to worry about being rate limited for very simple use cases. Once everything is setup and running (APIs may be called when adding users for the first time), running unauthenticated will work for servers with a few dozen users being synced once per hour.
+
+If you run into rate limiting issues, follow the instructions below for the provider you are using:
+
+<hr />
+
+<details><summary>Github</summary><br />
+
+GitHub limits at a rate of 60 requests per hour for unauthenticated requests. Follow the instructions below to increase this to 5,000 per hour.
+
+1. Visit your **Settings** > **Developer settings** > [**Personal access tokens**](https://github.com/settings/tokens) page
+2. Click the "Generate token" button
+3. Authenticate if requested
+4. Give the token a title (e.g. "Sync SSH Keys")
+5. Select no expiration[^expiration-security]
+6. Tick `read:public_key`
+7. Click generate token and copy the token to the clipboard
+8. Run `ssh-keys config github.token <token>`
+
+Make sure you replace `<token>` in Step 8 with the copied token from Step 7
+
+[^expiration-security]: Give any personal authentication token a fixed expiration if you are enabling any scope that accesses private data.
+
+</details>
+
+<hr />
+
+Keep in mind the steps above are only for accessing public data via the respective APIs (i.e. publically available SSH keys). Other tokens may need to be provided elsewhere, but `ssh-keys` will prompt you when this is likely to be needed.
+
+![Divider](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/solar.png)
+
+
 ## 🎨 &nbsp; Prior Art
 
 * https://github.com/samber/sync-ssh-keys
