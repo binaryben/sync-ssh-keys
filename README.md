@@ -30,7 +30,7 @@
 ```sh
 $ sudo add-apt-repository '{url to repo}'
 $ apt update
-$ apt install sync-ssh-keys
+$ apt install ssh-keys
 ```
 
 <details>
@@ -40,13 +40,13 @@ $ apt install sync-ssh-keys
 **Alpine**
 
 ```sh
-apk add sync-ssh-keys
+apk add ssh-keys
 ```
 
 **macOS**
 
 ```sh
-$ brew install sync-ssh-keys
+$ brew install ssh-keys
 ```
 
 > **Warning:** the below distros have not been tested by myself
@@ -74,25 +74,26 @@ TODO:
 ```sh
 # Save me as an authorized user
 # Replace my username (binaryben) with your own GitHub username below
-$ sync-ssh-keys add --user "binaryben"
+$ ssh-keys add --user=binaryben
 
 # Manually run command to sync the ssh keys
-$ sync-ssh-keys
+$ ssh-keys sync
 ```
 
 ### ➤ &nbsp; Scheduled updates
 
 ```sh
 # Configure `sync-ssh-keys` to run every hour on the hour
-sync-ssh-keys config --cron="0 * * * *"
+# Optional: This is already configured as the default update interval
+ssh-keys config cron "0 * * * *"
 
 # Install as a service
-sync-ssh-keys install
+ssh-keys install
 ```
 
 ### ➤ &nbsp; Advanced usage
 
-Run `sync-ssh-keys --help` for more options
+Run `ssh-keys --help` for more options
 
 ![Divider](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/solar.png)
 
