@@ -105,7 +105,7 @@ If you run into rate limiting issues, follow the instructions below for the prov
 
 <hr />
 
-<details><summary>Github</summary><br />
+<details><summary><strong>Github</strong></summary><br />
 
 GitHub limits at a rate of 60 requests per hour for unauthenticated requests. Follow the instructions below to increase this to 5,000 per hour.
 
