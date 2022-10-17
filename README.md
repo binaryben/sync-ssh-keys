@@ -83,7 +83,7 @@ $ ssh-keys sync
 ### ➤ &nbsp; Scheduled updates
 
 ```sh
-# Configure `sync-ssh-keys` to run every hour on the hour
+# Configure `ssh-keys sync` to run every hour on the hour
 # Optional: This is already configured as the default update interval
 ssh-keys config cron "0 * * * *"
 
