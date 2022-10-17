@@ -36,11 +36,18 @@ proc downloadKeysFromGitUser * (
   confEndpoint = if (endpoint == ""): getConf(config, confEndpoint) else: endpoint
 
   var confToken = @[provider, "token"].join(".")
+  # TODO: Try getting token from user config first
   confToken = if (token == ""): getConf(config, confToken) else: token
 
   if (confToken != ""):
-    let bearer = @["Bearer", confToken].join(" ")
-    client.headers = newHttpHeaders({ "Authorization": bearer })
+    var header: string = ""
+    if (provider == "github" xor provider == "bitbucket"):
+      header = @["Bearer", confToken].join(" ")
+    elif (provider == "gitea"):
+      header = @["token", confToken].join(" ")
+
+    if(header != ""):
+      client.headers = newHttpHeaders({ "Authorization": header })
 
   # var confURL = @[provider, "url"].join(".")
   # confURL = if (url == ""): getConf(config, confURL) else: url

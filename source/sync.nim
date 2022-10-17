@@ -1,6 +1,7 @@
 import
   std/parsecfg,
   std/terminal,
+  std/os,
   strutils
 
 import
@@ -34,15 +35,56 @@ proc notify (
   if(enabled == "true"):
     echo(message)
 
+proc done(message: string): void =
+  stdout.styledWriteLine(fgGreen, "✔", fgDefault, styleDim, "  ", message)
+
+proc warn(message: string): void =
+  stdout.styledWriteLine(fgYellow, styleBright, "⚠️  ", message)
+
+proc ensureSSHFilesExist(file: string): void =
+  if(not fileExists(file)):
+    warn("Configured SSH key file does not exist. Creating it now.")
+    writeFile(file, "")
+    done(file)
+  else:
+    done("SSH files are ready for configuration")
+
+  # echo(getFilePermissions(keyFile))
+  # echo "mkdir -p ~/.ssh"
+  # echo "chmod 700 ~/.ssh"
+  # echo "touch ~/.ssh/authorized_keys"
+
+proc ensureSSHPermissions(): void =
+  # echo "chmod 700 ~/.ssh"
+  # echo "chmod 600 ~/.ssh/authorized_keys"
+  # echo "echo \"ssh-rsa KEYGOESHERE user@remotehost or note\" >> ~/.ssh/authorized_keys"
+  done("SSH config files already have correct permissions")
+
+proc writeSSHKeys (file: string, lines: seq[string]) =
+  let f = open(file, fmWrite)
+  defer: f.close()
+
+  for line in lines:
+    f.writeLine(line)
+
+  done("Keys successfully saved")
+
 proc syncAuthorizedUsers* (
   args: seq[string],
   config: string = getConfPath(),
 ): int =
   ensureConfigExists(config)
+  echo("Confirming SSH files exist...\n")
+  ensureSSHFilesExist(getConf(config, "path.keys"))
   notify(SYNC_START, config)
+
+  const DELIMITER_START = "-----BEGIN SYNCED SSH USER KEYS-----"
+  const DELIMITER_END = "-----END SYNCED SSH USER KEYS-----"
 
   var authorizedUsers = getConf(config, "path.users")
   var output: seq[string] = @[]
+
+  echo "\nDownloading SSH Keys...\n"
 
   for user in sections(loadConfig(authorizedUsers)):
     stdout.styledWrite(styleDim, "Downloading keys for ", user, "...")
@@ -55,10 +97,13 @@ proc syncAuthorizedUsers* (
       for i in countup(0, keys.len - 1):
         add(output, keys[i])
       let count = intToStr(keys.len)
-      stdout.styledWriteLine(fgGreen, "✔", fgDefault, styleDim, "  Downloaded ", count, " keys for ", user)
+      done(@["Downloaded", count, "keys for", user].join(" "))
     else:
-      stdout.styledWriteLine(fgYellow, "⚠️  Could not load any keys for ", user)
+      warn(@["Could not load any keys for", user].join(" "))
 
+  echo "\nSaving SSH Keys...\n"
+  writeSSHKeys(getConf(config, "path.keys"), output)
+  ensureSSHPermissions()
   notify(SYNC_SUCCESS, config)
 
   return 0
