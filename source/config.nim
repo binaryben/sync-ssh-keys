@@ -6,9 +6,6 @@ import
 
 import utils
 
-type ConfigType = enum
-  cfg, keys
-
 # Set $XDG_CONFIG_HOME path according to spec
 proc getXDGBasePath (): string =
   var xdgConfigPath: string
@@ -86,8 +83,8 @@ proc ensureConfigExists * (config: string): void =
 
     # Default Git Platform API routes
     cfg.setSectionKey("github", "url", "https://api.github.com")
-    cfg.setSectionKey("github", "endpoint", "users/{{user}}/keys")
-    cfg.setSectionKey("gitlab", "url", "https://api.github.com/")
+    cfg.setSectionKey("github", "endpoint", "/users/{{user}}/keys")
+    cfg.setSectionKey("gitlab", "url", "https://api.github.com")
     cfg.setSectionKey("gitlab", "endpoint", "/users/{{user}}/keys")
     cfg.setSectionKey("bitbucket", "url", "https://api.bitbucket.org/2.0")
     cfg.setSectionKey("bitbucket", "endpoint", "/users/{{user}/ssh-keys")
