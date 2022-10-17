@@ -138,3 +138,4 @@ Keep in mind the steps above are only for accessing public data via the respecti
 * https://github.com/wdatkinson/sync_ssh_keys
 * https://github.com/dkbhadeshiya/ssh-iam-sync
 * https://gist.github.com/lleger/6947bdecddac6563a05ead204d95af8e
+* [And others...](https://github.com/search?q=sync+ssh+keys&type=Repositories)
