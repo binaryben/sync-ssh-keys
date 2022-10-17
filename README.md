@@ -123,6 +123,12 @@ Make sure you replace `<token>` in Step 8 with the copied token from Step 7
 [^expiration-security]: Give any personal authentication token a fixed expiration if you are enabling any scope that accesses private data.
 
 </details>
+<hr />
+<details><summary><strong>Bitbucket</strong></summary><br >
+
+[Placeholder link to information](https://developer.atlassian.com/cloud/bitbucket/rest/intro/#create-an-app-password)
+
+</details>
 
 <hr />
 
