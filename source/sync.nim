@@ -1,13 +1,15 @@
 import
   std/parsecfg,
-  std/terminal,
   std/os,
   strutils
 
 import
   config,
   utils,
-  providers/git
+  providers/git,
+  utils/logger
+
+let log = newLogger("sync")
 
 type EventType = enum
   SYNC_START,
@@ -36,19 +38,13 @@ proc notify (
   if(enabled == "true"):
     echo(message)
 
-proc done(message: string): void =
-  stdout.styledWriteLine(fgGreen, "✔", fgDefault, styleDim, "  ", message)
-
-proc warn(message: string): void =
-  stdout.styledWriteLine(fgYellow, styleBright, "⚠️  ", message)
-
 proc ensureSSHFilesExist(file: string): void =
   if(not fileExists(file)):
-    warn("Configured SSH key file does not exist. Creating it now.")
+    log.warn("Configured SSH key file does not exist. Creating it now.")
     writeFile(file, "")
-    done(file)
+    log.success(file)
   else:
-    done("SSH files are ready for configuration")
+    log.success("SSH files are ready for configuration")
 
   # echo(getFilePermissions(keyFile))
   # echo "mkdir -p ~/.ssh"
@@ -59,7 +55,7 @@ proc ensureSSHPermissions(): void =
   # echo "chmod 700 ~/.ssh"
   # echo "chmod 600 ~/.ssh/authorized_keys"
   # echo "echo \"ssh-rsa KEYGOESHERE user@remotehost or note\" >> ~/.ssh/authorized_keys"
-  done("SSH config files already have correct permissions")
+  log.success("SSH config files already have correct permissions")
 
 proc writeSSHKeys (file: string, lines: seq[string]) =
   let f = open(file, fmWrite)
@@ -68,7 +64,7 @@ proc writeSSHKeys (file: string, lines: seq[string]) =
   for line in lines:
     f.writeLine(line)
 
-  done("Keys successfully saved")
+  log.success("Keys successfully saved")
 
 proc syncAuthorizedUsers* (
   args: seq[string],
@@ -88,19 +84,19 @@ proc syncAuthorizedUsers* (
   echo "\nDownloading SSH Keys...\n"
 
   for user in sections(loadConfig(authorizedUsers)):
-    stdout.styledWrite(styleDim, "Downloading keys for ", user, "...")
+    log.task(@["Downloading keys for", user, "..."].join(" "))
     var provider = @[user, "provider"].join(".")
     provider = getConf(authorizedUsers, provider)
     let keys = downloadKeysFromGitUser(user, provider = provider)
-    stdout.eraseLine()
 
     if(keys.len > 0):
       for i in countup(0, keys.len - 1):
         add(output, keys[i])
       let count = intToStr(keys.len)
-      done(@["Downloaded", count, "keys for", user].join(" "))
+      log.success(@["Downloaded", count, "keys for", user].join(" "))
     else:
-      warn(@["Could not load any keys for", user].join(" "))
+      log.failure(@["Could not load any keys for", user].join(" "))
+      log.warn(@[user, "may not be able to login"].join(" "))
 
   echo "\nSaving SSH Keys...\n"
   writeSSHKeys(getConf(config, "path.keys"), output)
