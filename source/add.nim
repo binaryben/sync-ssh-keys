@@ -4,7 +4,9 @@ import
   std/parsecfg,
   strutils
 
-import config
+import
+  config,
+  utils
 
 proc getSecretFromUser (prompt: string, reason: string) : string =
   echo(reason)

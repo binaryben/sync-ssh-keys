@@ -6,6 +6,7 @@ import
 
 import
   config,
+  utils,
   providers/git
 
 type EventType = enum

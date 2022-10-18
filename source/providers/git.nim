@@ -3,7 +3,9 @@ import
   std/json,
   strutils
 
-import ../config
+import
+  ../config,
+  ../utils
 
 proc downloadKeysFromGitUser * (
   user: string,
