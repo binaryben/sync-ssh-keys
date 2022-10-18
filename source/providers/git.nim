@@ -5,7 +5,7 @@ import
 
 import
   ../config,
-  ../utils
+  ../utils/consts
 
 proc downloadKeysFromGitUser * (
   user: string,

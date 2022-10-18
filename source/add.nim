@@ -6,7 +6,7 @@ import
 
 import
   config,
-  utils
+  utils/consts
 
 proc getSecretFromUser (prompt: string, reason: string) : string =
   echo(reason)

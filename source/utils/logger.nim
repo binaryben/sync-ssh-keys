@@ -2,7 +2,7 @@ from logging import Logger
 import
   std/strutils,
   std/terminal
-import ../utils
+import /consts
 
 type
   SyslogLevel* = enum

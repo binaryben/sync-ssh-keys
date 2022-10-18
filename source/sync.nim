@@ -5,8 +5,8 @@ import
 
 import
   config,
-  utils,
   providers/git,
+  utils/consts,
   utils/logger
 
 let log = newLogger("sync")

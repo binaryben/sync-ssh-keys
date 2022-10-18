@@ -4,7 +4,7 @@ import
   std/parsecfg,
   strutils
 
-import utils
+import utils/consts
 
 proc printHelp (config: string): void =
   stdout.styledWriteLine(styleBright, "CONFIG PATHS\n")
