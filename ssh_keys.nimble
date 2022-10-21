@@ -1,5 +1,8 @@
+import std/strutils
+
 # Package
 
+packageName   = "sync-ssh-keys"
 version       = "0.1.0-alpha"
 author        = "Benny Michaels"
 description   = "Keep ~/.ssh/authorized_keys of a server in sync with public SSH keys"
@@ -24,16 +27,51 @@ when defined(nimdistros):
 ]#
 
 before build:
-  var localBinPath = getEnv("HOME")
-  localBinPath.add("/.local/bin/ssh-keys")
+  var localBinPath: string
+  var defaultBinName = projectName()
+  var defaultNimblePath = getEnv("HOME")
+  var defaultLocalPath = getEnv("HOME")
+
+  defaultBinName = defaultBinName.replace("_", "-")
+  defaultNimblePath.add("/.nimble")
+  defaultLocalPath.add("/.local")
+
+  if (existsEnv("NIMBLEDIR") and dirExists(getEnv("NIMBLEDIR"))):
+    localBinPath = getEnv("NIMBLEDIR")
+  elif (dirExists(defaultNimblePath)):
+    localBinPath = defaultNimblePath
+  else:
+    localBinPath = defaultLocalPath
+
+  localBinPath.add("/bin/")
+  localBinPath.add(defaultBinName)
+
   if(fileExists(localBinPath)):
-    echo "Removing copy of sync-ssh-keys from ~/.local/bin/"
+    echo("   Removing ", localBinPath)
     rmFile(localBinPath)
 
 after build:
-  var localBinPath = getEnv("HOME")
-  localBinPath.add("/.local/bin/")
+  var localBinPath: string
+  var defaultBinName = projectName()
+  var defaultNimblePath = getEnv("HOME")
+  var defaultLocalPath = getEnv("HOME")
+
+  defaultBinName = defaultBinName.replace("_", "-")
+  defaultNimblePath.add("/.nimble")
+  defaultLocalPath.add("/.local")
+
+  if (existsEnv("NIMBLEDIR") and dirExists(getEnv("NIMBLEDIR"))):
+    localBinPath = getEnv("NIMBLEDIR")
+  elif (dirExists(defaultNimblePath)):
+    localBinPath = defaultNimblePath
+  else:
+    localBinPath = defaultLocalPath
+
+  localBinPath.add("/bin/")
+
   if(dirExists(localBinPath)):
-    echo("Copying to ~/.local/bin")
-    localBinPath.add("ssh-keys")
-    cpFile("./bin/ssh-keys", localBinPath)
+    localBinPath.add(defaultBinName)
+    var buildBinary = "./bin/"
+    buildBinary.add(defaultBinName)
+    echo("    Copying ", buildBinary, " to ", localBinPath)
+    cpFile(buildBinary, localBinPath)
