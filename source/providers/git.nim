@@ -5,7 +5,10 @@ import
 
 import
   ../commands/config,
-  ../utils/consts
+  ../utils/consts,
+  ../utils/logger
+
+var log = newLogger("git")
 
 proc downloadKeysFromGitUser * (
   user: string,
@@ -21,6 +24,8 @@ proc downloadKeysFromGitUser * (
   var keys: seq[string] = @[]
   var client = newHttpClient()
 
+  log.debug(@["Provider for", user, "is set to", provider].join(" "))
+
   # Add known headers
   if(provider == "github"):
     client.headers = newHttpHeaders({ "Accept": "application/vnd.github+json" })
@@ -33,6 +38,8 @@ proc downloadKeysFromGitUser * (
 
   var confURL = @[provider, "url"].join(".")
   confURL = if (url == ""): getConf(config, confURL) else: url
+
+  log.debug(@["URL for provider set to", confURL].join(" "))
 
   var confEndpoint = @[provider, "endpoint"].join(".")
   confEndpoint = if (endpoint == ""): getConf(config, confEndpoint) else: endpoint
@@ -59,9 +66,8 @@ proc downloadKeysFromGitUser * (
   api = replace(api, "{{user}}", user)
 
   let payload = parseJson(client.getContent(api))
-  # let payload = parseJson("[{\"key\": \"API calls suspended because of rate limiting\"}]")
   for i in countup(0, payload.len - 1):
-    let key = to(payload[i]["key"], string)
-    add(keys, key)
+      let key = to(payload[i]["key"], string)
+      add(keys, key)
 
   return keys
