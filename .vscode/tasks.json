@@ -5,7 +5,6 @@
 			"label": "Compile binary",
 			"command": "nimble",
 			"args": ["build"],
-			// "options": { "cwd": "${workspaceRoot}" },
 			"type": "shell",
 			"group": {
 				"kind": "build",
