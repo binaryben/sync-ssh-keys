@@ -23,7 +23,7 @@ type
     taskRunning: bool
 
   MessageStyle = enum
-    none = 0
+    styleNone = 0
     bright = styleBright
     dim = styleDim
 
@@ -49,10 +49,15 @@ method print (
   fgPrefix: ForegroundColor = fgDefault,
   bgPrefix: BackgroundColor = bgDefault,
   fgMessage: ForegroundColor = fgDefault,
-  style: MessageStyle = none,
+  style: MessageStyle = styleNone,
 ): void {.base.} =
   if (self.console):
-    stdout.styledWrite(fgPrefix, bgPrefix, prefix)
+    if (prefix != ""):
+      var alignedPrefix = prefix
+      add(alignedPrefix, " ")
+      stdout.styledWrite(fgPrefix, bgPrefix, alignedPrefix)
+    else:
+      stdout.styledWrite(fgPrefix, bgPrefix, prefix)
     if(style == bright):
       stdout.styledWriteLine(fgMessage, styleBright, message)
     elif(style == dim):
@@ -68,35 +73,37 @@ method log (
   fgPrefix: ForegroundColor = fgDefault,
   bgPrefix: BackgroundColor = bgDefault,
   fgMessage: ForegroundColor = fgDefault,
-  style: MessageStyle = none,
+  style: MessageStyle = styleNone,
+  task: bool = false
 ): void {.base.} =
   if(level <= self.level):
     self.print(level, prefix, message, fgPrefix, bgPrefix, fgMessage, style)
+  self.taskRunning = task
 
 ################################################################
 
 method panic * (self: SimpleLogger, message: string): void {.base.} =
-  const prefix = "☠️  "
+  const prefix = "☠️ "
   self.log(PANIC, message, prefix, fgMessage=fgMagenta, style=bright)
 
 method alert * (self: SimpleLogger, message: string): void {.base.} =
-  const prefix = "🚨 "
+  const prefix = "🚨"
   self.log(ALERT, message, prefix, fgMessage=fgMagenta, style=bright)
 
 method critical * (self: SimpleLogger, message: string): void {.base.} =
-  const prefix = "🔥 "
+  const prefix = "🔥"
   self.log(CRITICAL, message, prefix, fgMessage=fgRed, style=bright)
 
 method error * (self: SimpleLogger, message: string): void {.base.} =
-  const prefix = "⛔️ "
+  const prefix = "⛔️"
   self.log(ERROR, message, prefix, fgMessage=fgRed, style=bright)
 
 method warn * (self: SimpleLogger, message: string): void {.base.} =
-  const prefix = "⚠️  "
+  const prefix = "⚠️ "
   self.log(WARN, message, prefix, fgMessage=fgYellow, style=bright)
 
 method notice * (self: SimpleLogger, message: string): void {.base.} =
-  const prefix = "ℹ️  "
+  const prefix = "ℹ️ "
   self.log(NOTICE, message, prefix, fgMessage=fgBlue, style=bright)
 
 ################################################################
@@ -110,29 +117,27 @@ method info * (self: SimpleLogger, message: string): void {.base.} =
 method console * (self: SimpleLogger, message: string): void {.base.} =
   self.log(INFO, message)
 
-# * Similarly, the task methods (task, success & failure) all = SyslogLevel.INFO
+# * SimpleLogger.task and SimpleLogger.success = SyslogLevel.INFO
+# * SimpleLogger.failure = SyslogLevel.ERROR
 # The task method will only write to the console
 # The success and failure methods will write to both
 
 method task * (self: SimpleLogger, message: string): void {.base.} =
-  self.taskRunning = true
-  self.log(INFO, message, prefix="⏳ ")
+  self.log(INFO, message, prefix="⏳", task=true)
 
 method success * (self: SimpleLogger, message: string): void {.base.} =
   if(self.taskRunning):
     cursorUp 1
     stdout.eraseLine()
-    self.taskRunning = false
-  self.log(INFO, message, prefix="✔  ", fgPrefix=fgGreen, style=dim)
+  self.log(INFO, message, prefix="✔ ", fgPrefix=fgGreen, style=dim)
 
 method failure * (self: SimpleLogger, message: string): void {.base.} =
   if(self.taskRunning):
     cursorUp 1
     stdout.eraseLine()
-    self.taskRunning = false
-  self.log(INFO, message, prefix="✘  ", fgPrefix=fgRed, style=dim)
+  self.log(ERROR, message, prefix="✘ ", fgPrefix=fgRed, style=dim)
 
 ################################################################
 
 method debug * (self: SimpleLogger, message: string): void {.base.} =
-  self.log(DEBUG, message)
+  self.log(DEBUG, message, prefix=self.scope, fgPrefix=fgMagenta, style=dim)
