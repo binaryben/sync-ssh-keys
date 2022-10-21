@@ -5,9 +5,9 @@ import
 
 import
   config,
-  providers/git,
-  utils/consts,
-  utils/logger
+  ../providers/git,
+  ../utils/consts,
+  ../utils/logger
 
 let log = newLogger("sync")
 
@@ -61,8 +61,15 @@ proc writeSSHKeys (file: string, lines: seq[string]) =
   let f = open(file, fmWrite)
   defer: f.close()
 
+  const DELIMITER_START = "----BEGIN SYNCED SSH USER KEYS-----"
+  const DELIMITER_END = "-----END SYNCED SSH USER KEYS-----"
+
+  f.writeLine(@["#", DELIMITER_START].join(" "))
+
   for line in lines:
     f.writeLine(line)
+
+  f.writeLine(@["#", DELIMITER_END].join(" "))
 
   log.success("Keys successfully saved")
 
@@ -75,8 +82,6 @@ proc syncAuthorizedUsers* (
   ensureSSHFilesExist(getConf(config, "path.keys"))
   notify(SYNC_START, config)
 
-  const DELIMITER_START = "-----BEGIN SYNCED SSH USER KEYS-----"
-  const DELIMITER_END = "-----END SYNCED SSH USER KEYS-----"
 
   var authorizedUsers = getConf(config, "path.users")
   var output: seq[string] = @[]
@@ -90,6 +95,7 @@ proc syncAuthorizedUsers* (
     let keys = downloadKeysFromGitUser(user, provider = provider)
 
     if(keys.len > 0):
+      add(output, @["#", user].join(" "))
       for i in countup(0, keys.len - 1):
         add(output, keys[i])
       let count = intToStr(keys.len)

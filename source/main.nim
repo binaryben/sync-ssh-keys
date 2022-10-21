@@ -1,11 +1,11 @@
 import
   os, cligen
 import
-  add,
-  config,
-  install,
-  remove,
-  sync
+  commands/add,
+  commands/config,
+  commands/install,
+  commands/remove,
+  commands/sync
 
 when declared(paramStr):
   if paramCount() > 0:

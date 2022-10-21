@@ -4,7 +4,7 @@ import
   strutils
 
 import
-  ../config,
+  ../commands/config,
   ../utils/consts
 
 proc downloadKeysFromGitUser * (
