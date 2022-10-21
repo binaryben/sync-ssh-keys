@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.0"
+version       = "0.1.0-alpha"
 author        = "Benny Michaels"
 description   = "Keep ~/.ssh/authorized_keys of a server in sync with public SSH keys"
 license       = "ISC"
@@ -8,11 +8,14 @@ srcDir        = "source"
 namedBin      = {"main": "ssh-keys"}.toTable()
 binDir        = "bin"
 
-
 # Dependencies
 
 requires "nim >= 1.6.8"
 requires "cligen >= 1.5.30"
+
+when defined(nimdistros):
+  import distros
+  foreignDep "openssl"
 
 # Copy binary to ~/.local/bin if it exists
 #[
