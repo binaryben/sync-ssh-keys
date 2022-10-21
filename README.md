@@ -46,6 +46,7 @@ apk add ssh-keys
 **macOS**
 
 ```sh
+$ brew tap binaryben/brew
 $ brew install ssh-keys
 ```
 
