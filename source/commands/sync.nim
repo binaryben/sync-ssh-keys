@@ -82,9 +82,9 @@ proc syncAuthorizedUsers* (
   ensureSSHFilesExist(getConf(config, "path.keys"))
   notify(SYNC_START, config)
 
-
   var authorizedUsers = getConf(config, "path.users")
   var output: seq[string] = @[]
+  var failed: seq[string] = @[]
 
   echo "\nDownloading SSH Keys...\n"
 
@@ -102,7 +102,13 @@ proc syncAuthorizedUsers* (
       log.success(@["Downloaded", count, "keys for", user].join(" "))
     else:
       log.failure(@["Could not load any keys for", user].join(" "))
-      log.warn(@[user, "may not be able to login"].join(" "))
+      add(failed, user)
+
+  if (failed.len > 1):
+    let count = intToStr(failed.len)
+    log.warn(@[count, "users may not be able to login"].join(" "))
+  elif (failed.len == 1):
+    log.warn(@[failed[0], "may not be able to login"].join(" "))
 
   echo "\nSaving SSH Keys...\n"
   writeSSHKeys(getConf(config, "path.keys"), output)
