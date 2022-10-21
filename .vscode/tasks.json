@@ -4,7 +4,7 @@
 		{
 			"label": "Compile binary",
 			"command": "nimble",
-			"args": ["build", "-d:ssl"],
+			"args": ["build"],
 			// "options": { "cwd": "${workspaceRoot}" },
 			"type": "shell",
 			"group": {
