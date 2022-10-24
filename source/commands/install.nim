@@ -5,7 +5,7 @@ import
   ../utils/paths
 
 const
-  InstallDoc * = "Modify settings for the system, users or groups"
+  InstallDoc * = "Install '" & binName & " sync' as a cron service"
   InstallHelp * = {
     "help": "CLIGEN-NOHELP",
     "version": "CLIGEN-NOHELP",
