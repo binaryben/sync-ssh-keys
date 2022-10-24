@@ -4,8 +4,8 @@ import
   strutils
 
 import
-  ../commands/config,
-  ../utils/consts,
+  ../models/conf,
+  ../utils/paths,
   ../utils/logger
 
 var log = newLogger("git")
@@ -19,7 +19,6 @@ proc downloadKeysFromGitUser * (
   token: string = "",
   structure: string = "",
 ): seq[string] =
-  ensureConfigExists(config)
 
   var keys: seq[string] = @[]
   var client = newHttpClient()
@@ -37,16 +36,16 @@ proc downloadKeysFromGitUser * (
   # ! in the syncAuthorizedUsers() proc.
 
   var confURL = @[provider, "url"].join(".")
-  confURL = if (url == ""): getConf(config, confURL) else: url
+  confURL = if (url == ""): getConf(confURL) else: url
 
   log.debug(@["URL for provider set to", confURL].join(" "))
 
   var confEndpoint = @[provider, "endpoint"].join(".")
-  confEndpoint = if (endpoint == ""): getConf(config, confEndpoint) else: endpoint
+  confEndpoint = if (endpoint == ""): getConf(confEndpoint) else: endpoint
 
   var confToken = @[provider, "token"].join(".")
   # TODO: Try getting token from user config first
-  confToken = if (token == ""): getConf(config, confToken) else: token
+  confToken = if (token == ""): getConf(confToken) else: token
 
   if (confToken != ""):
     var header: string = ""
@@ -59,7 +58,7 @@ proc downloadKeysFromGitUser * (
       client.headers = newHttpHeaders({ "Authorization": header })
 
   # var confURL = @[provider, "url"].join(".")
-  # confURL = if (url == ""): getConf(config, confURL) else: url
+  # confURL = if (url == ""): getConf(confURL) else: url
 
   # Generate API request
   var api = @[confURL, confEndpoint].join("")

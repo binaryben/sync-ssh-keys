@@ -7,8 +7,9 @@ import
   strutils
 
 import
-  config,
-  ../utils/consts
+  ../models/conf,
+  ../utils/logger,
+  ../utils/paths
 
 const
   AddDoc * = "Add a user or group to be synced"
@@ -18,6 +19,8 @@ const
   }.toTable()
   # AddShort = { "key": 'z' }.toTable()
   AddUsage * = "ssh-keys $command [options]\n\nOPTIONS\n$options"
+
+var log = newLogger("cli:add")
 
 proc getSecretFromUser (prompt: string, reason: string) : string =
   echo(reason)
@@ -39,9 +42,9 @@ proc addAuthorizedUser* (
   interactive: bool = false,
   args: seq[string],
 ): int =
-  ensureConfigExists(config)
+  log.debug("Starting execution of add command")
 
-  let usersFile = getConf(config, "path.users")
+  let usersFile = getConf("path.users")
   if(not fileExists(usersFile)):
     writeFile(usersFile, "")
 
@@ -70,9 +73,8 @@ proc addAuthorizedGroup* (
   interactive: bool = false,
   args: seq[string],
 ): int =
-  ensureConfigExists(config)
 
-  let groupsFile = getConf(config, "path.groups")
+  let groupsFile = getConf("path.groups")
   if(not fileExists(groupsFile)):
     writeFile(groupsFile, "")
 
