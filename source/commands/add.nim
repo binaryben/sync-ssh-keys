@@ -18,7 +18,7 @@ const
     "version": "CLIGEN-NOHELP",
   }.toTable()
   # AddShort = { "key": 'z' }.toTable()
-  AddUsage * = "ssh-keys $command [options]\n\nOPTIONS\n$options"
+  AddUsage * = "ssh-keys $command [options]\n\n\e[1mOPTIONS\e[m\n$options"
 
 var log = newLogger("cli:add")
 
