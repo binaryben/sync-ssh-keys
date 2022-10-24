@@ -14,7 +14,7 @@ const
     "help": "CLIGEN-NOHELP",
     "version": "CLIGEN-NOHELP",
   }.toTable()
-  ConfigUsage * = "ssh-keys $command <section.key> <value>\n\nOPTIONS\n$options"
+  ConfigUsage * = "ssh-keys $command <section.key> <value>\n\n\e[1mOPTIONS\e[m\n$options"
 
 proc configCommand * (
   file: string = getConfPath(),

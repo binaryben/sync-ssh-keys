@@ -8,25 +8,30 @@ import
   commands/sync,
   utils/paths
 
-const GlobalUsage = """${doc}USAGE
+const GlobalUsage = "${doc}\e[1mUSAGE\e[m\n" & """
   $command <command> [flags] [args]
 
-COMMANDS
+""" & "\e[1mCOMMANDS\e[m" & """
+
 $subcmds
-FLAGS
+""" & "\e[1mFLAGS\e[m" & """
+
   --help      Show help for a command
   --version   Show ssh-keys version
 
-EXAMPLES
+""" & "\e[1mEXAMPLES\e[m" & """
+
   λ $command install
   λ $command add --user=binaryben
   λ $command sync
 
-LEARN MORE
+""" & "\e[1mLEARN MORE\e[m" & """
+
   Use '$command help <command>' for more information about a command
   Read the docs at https://github.com/binaryben/sync-ssh-keys
 
-FEEDBACK
+""" & "\e[1mFEEDBACK\e[m" & """
+
   Open an issue at https://bnry.be/ssk-issues
   Request help at https://bnry.be/ssk-help
   Submit feature requests at https://bnry.be/ssk-idea"""
@@ -49,7 +54,7 @@ when isMainModule:
 
   clCfg.helpSyntax = ""
   clCfg.hTabCols = @[ clOptKeys, clDescrip ]
-  clCfg.useHdr = "${doc}\n*USAGE*\n  "
+  clCfg.useHdr = "${doc}\n\e[1mUSAGE\e[m\n  "
 
   dispatchMulti(
     [ "multi", cmdName=binName, doc=docLine, usage=GlobalUsage ],
