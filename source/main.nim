@@ -47,7 +47,9 @@ when isMainModule:
   else:
     clCfg.version = nimbleFile.fromNimble "version"
 
+  clCfg.hTabCols = @[ clOptKeys, clDescrip ]
   clCfg.helpSyntax = ""
+  clCfg.useHdr = "${doc}\nUSAGE\n  "
 
   dispatchMulti(
     [ "multi", cmdName=binName, doc=docLine, usage=GlobalUsage ],

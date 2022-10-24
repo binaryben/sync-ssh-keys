@@ -1,8 +1,2 @@
-[layout]
-cols = "clOptKeys clDescrip"
-
 [templates]
-useHdr   = "${doc}\n%(bold)USAGE\n  "
 use      = "$command $args\n%(bold)\nOPTIONS\n$options"
-
-
