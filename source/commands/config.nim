@@ -23,48 +23,6 @@ proc ensureConfigExists * (config: string): void =
 
     # Default settings
     cfg.setSectionKey("", "version", "0")
-    cfg.setSectionKey("", "force", "true")
-    cfg.setSectionKey("", "cron", "0 * * * *")
-    cfg.setSectionKey("", "telemetry", "true")
-
-    # Default paths
-    cfg.setSectionKey("path", "keys", joinPath(getHomeDir(), ".ssh", "authorized_keys"))
-    cfg.setSectionKey("path", "users", joinPath(getHomeDir(), ".ssh", "authorized_users"))
-    cfg.setSectionKey("path", "groups", joinPath(getHomeDir(), ".ssh", "authorized_groups"))
-    cfg.setSectionKey("path", "recovery", joinPath(getHomeDir(), ".ssh", "recovery_keys"))
-
-    # Logging config
-    cfg.setSectionKey("log", "level", "info")
-    cfg.setSectionKey("log", "directory", "info")
-
-    # Healthchecks
-    cfg.setSectionKey("health", "ping", "false")
-    cfg.setSectionKey("health", "start", "https://hc-ping.com/{{uuid}}/start")
-    cfg.setSectionKey("health", "success", "https://hc-ping.com/{{uuid}}")
-    cfg.setSectionKey("health", "fail", "https://hc-ping.com/{{uuid}}/fail")
-
-    # Default Git Platform API routes
-    cfg.setSectionKey("github", "url", "https://api.github.com")
-    cfg.setSectionKey("github", "endpoint", "/users/{{user}}/keys")
-    cfg.setSectionKey("gitlab", "url", "https://api.github.com")
-    cfg.setSectionKey("gitlab", "endpoint", "/users/{{user}}/keys")
-    cfg.setSectionKey("bitbucket", "url", "https://api.bitbucket.org/2.0")
-    cfg.setSectionKey("bitbucket", "endpoint", "/users/{{user}/ssh-keys")
-    cfg.setSectionKey("gitea", "url", "https://api.github.com")
-    cfg.setSectionKey("gitea", "resource", "/users/{{user}}/keys")
-    cfg.setSectionKey("git", "url", "https://example.com")
-    cfg.setSectionKey("git", "resource", "/users/{{user}}/keys")
-
-    # S3 placeholders
-    cfg.setSectionKey("s3", "endpoint", "false")
-    cfg.setSectionKey("s3", "key", "false")
-    cfg.setSectionKey("s3", "secret", "false")
-    cfg.setSectionKey("s3", "region", "false")
-    cfg.setSectionKey("s3", "bucket", "false")
-    cfg.setSectionKey("s3", "directory", "false")
-
-    # IAM placeholders (defaults to AWS)
-    cfg.setSectionKey("iam", "endpoint", "false")
 
     # Write defaults
     cfg.writeConfig(config)
