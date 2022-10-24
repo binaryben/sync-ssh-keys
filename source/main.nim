@@ -8,31 +8,34 @@ import
   commands/sync,
   utils/paths
 
-const GlobalUsage = """${doc}USAGE
+const GlobalUsage = """${doc}*USAGE*
   $command <command> [flags] [args]
 
-COMMANDS
+*COMMANDS*
 $subcmds
-FLAGS
+*FLAGS*
   --help      Show help for a command
   --version   Show ssh-keys version
 
-EXAMPLES
+*EXAMPLES*
   λ $command install
   λ $command add --user=binaryben
   λ $command sync
 
-LEARN MORE
+*LEARN MORE*
   Use '$command help <command>' for more information about a command
   Read the docs at https://github.com/binaryben/sync-ssh-keys
 
-FEEDBACK
+*FEEDBACK*
   Open an issue at https://bnry.be/ssk-issues
   Request help at https://bnry.be/ssk-help
   Submit feature requests at https://bnry.be/ssk-idea"""
 
 when isMainModule:
-  import cligen
+  import
+    cligen,
+    cligen/humanUt,
+    std/tables
   import models/conf
 
   include cligen/mergeCfgEnv
@@ -47,9 +50,13 @@ when isMainModule:
   else:
     clCfg.version = nimbleFile.fromNimble "version"
 
-  clCfg.hTabCols = @[ clOptKeys, clDescrip ]
+  let r = initRstMdSGR({"singlestar": "bold ; -bold"}.toTable())
+  proc renderMarkup(markup: string): string = r.render(markup)
+  clCfg.render = renderMarkup
+
   clCfg.helpSyntax = ""
-  clCfg.useHdr = "${doc}\nUSAGE\n  "
+  clCfg.hTabCols = @[ clOptKeys, clDescrip ]
+  clCfg.useHdr = "${doc}\n*USAGE*\n  "
 
   dispatchMulti(
     [ "multi", cmdName=binName, doc=docLine, usage=GlobalUsage ],
