@@ -2,6 +2,8 @@ import
   commands/add,
   commands/config,
   commands/install,
+  commands/list,
+  commands/push,
   commands/remove,
   commands/sync,
   utils/paths
@@ -50,8 +52,10 @@ when isMainModule:
   dispatchMulti(
     [ "multi", cmdName=binName, doc=docLine, usage=GlobalUsage ],
     [addAuthorizedUser, cmdName="add", doc=AddDoc, help=AddHelp, usage=AddUsage ],
-    [configCommand, cmdName="config", doc=ConfigDoc, help=ConfigHelp, usage=ConfigUsage],
-    [installService, cmdName="install"],
-    [removeAuthorizedUser, cmdName="remove"],
-    [syncAuthorizedUsers, cmdName="sync"]
+    [ configCommand, cmdName="config", doc=ConfigDoc, help=ConfigHelp, usage=ConfigUsage ],
+    [ installCommand, cmdName="install", doc=InstallDoc, help=InstallHelp, usage=InstallUsage ],
+    [ listCommand, cmdName="list", doc=ListDoc, help=ListHelp, usage=ListUsage ],
+    [ pushCommand, cmdName="push", doc=PushDoc, help=PushHelp, usage=PushUsage ],
+    [ removeCommand, cmdName="remove", doc=RemoveDoc, help=RemoveHelp, usage=RemoveUsage ],
+    [ syncAuthorizedUsers, cmdName="sync" ]
   )

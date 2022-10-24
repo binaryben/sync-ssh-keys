@@ -5,15 +5,15 @@ import
   ../utils/paths
 
 const
-  RemoveDoc * = "Remove a saved user or group"
-  RemoveHelp * = {
+  ListDoc * = "List saved config, users and groups"
+  ListHelp * = {
     "help": "CLIGEN-NOHELP",
     "version": "CLIGEN-NOHELP",
   }.toTable()
-  RemoveUsage * = binName & " $command"
+  ListUsage * = binName & " $command"
 
-proc removeCommand* (
+proc listCommand* (
   args: seq[string],
 ): int =
-  echo "This is the remove command"
+  echo "This is the list command"
   return 1
