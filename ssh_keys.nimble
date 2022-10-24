@@ -50,6 +50,8 @@ before build:
     echo("   Removing ", localBinPath)
     rmFile(localBinPath)
 
+  putEnv("CLIGEN", "/Users/ben/.local/share/git/github.com/binaryben/sync-ssh-keys/config/cligenrc")
+
 after build:
   var localBinPath: string
   var defaultBinName = projectName()

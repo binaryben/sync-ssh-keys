@@ -1,24 +1,29 @@
 import
-  os, cligen
-import
   commands/add,
   commands/config,
   commands/install,
   commands/remove,
-  commands/sync
+  commands/sync,
+  utils/consts
 
-when declared(paramStr):
-  if paramCount() > 0:
-    case paramStr(1):
-      of "add":
-        dispatch(addAuthorizedUser, cmdName="ssh-keys add")
-      of "config":
-        dispatch(setOrGetConfig, cmdName="ssh-keys config")
-      of "install":
-        dispatch(installService, cmdName="ssh-keys install")
-      of "remove":
-        dispatch(removeAuthorizedUser, cmdName="ssh-keys remove")
-      of "sync":
-        dispatch(syncAuthorizedUsers, cmdName="ssh-keys sync")
+when isMainModule:
+  import cligen
+  include cligen/mergeCfgEnv
+
+  const nimbleFile = staticRead "../ssh_keys.nimble"
+  let docLine = nimbleFile.fromNimble("description") & "\n\n\n"
+
+  when defined(versionGit):
+    const vsn = staticExec "git describe --tags HEAD"
+    clCfg.version = vsn
   else:
-    dispatch(syncAuthorizedUsers, cmdName="ssh-keys sync")
+    clCfg.version = nimbleFile.fromNimble "version"
+
+  dispatchMulti(
+    [ "multi", cmdName="ssh-keys", doc = docLine ],
+    [addAuthorizedUser, cmdName="add"],
+    [setOrGetConfig, cmdName="config"],
+    [installService, cmdName="install"],
+    [removeAuthorizedUser, cmdName="remove"],
+    [syncAuthorizedUsers, cmdName="sync"]
+  )
