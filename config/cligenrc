@@ -2,26 +2,7 @@
 cols = "clOptKeys clDescrip"
 
 [templates]
-useHdr   = "%(bold)USAGE\n  "
-use      = "$command $args\n${doc}\n%(bold)OPTIONS\n$options"
+useHdr   = "${doc}\n%(bold)USAGE\n  "
+use      = "$command $args\n%(bold)\nOPTIONS\n$options"
 
-useMulti = """${doc}%(bold)USAGE
-  $command <command> [flags] [args]
 
-%(bold)COMMANDS
-$subcmds
-%(bold)FLAGS
-  --help      Show help for a command
-  --version   Show ssh-keys version
-
-%(bold)EXAMPLES
-  $$ $command install
-  $$ $command add --user=binaryben
-  $$ $command sync
-
-%(bold)LEARN %(bold)MORE
-  Use '$command help <command>' for more information about a command
-  Read the docs at https://github.com/binaryben/sync-ssh-keys
-
-%(bold)FEEDBACK
-  Open an issue at https://github.com/binaryben/sync-ssh-keys/issues"""

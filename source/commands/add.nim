@@ -1,3 +1,5 @@
+from std/tables import toTable
+
 import
   std/os,
   std/terminal,
@@ -7,6 +9,15 @@ import
 import
   config,
   ../utils/consts
+
+const
+  AddDoc * = "Add a user or group to be synced"
+  AddHelp * = {
+    "help": "CLIGEN-NOHELP",
+    "version": "CLIGEN-NOHELP",
+  }.toTable()
+  # AddShort = { "key": 'z' }.toTable()
+  AddUsage * = "ssh-keys $command [options]\n\nOPTIONS\n$options"
 
 proc getSecretFromUser (prompt: string, reason: string) : string =
   echo(reason)

@@ -1,21 +1,20 @@
 import
   std/os,
-  std/terminal,
+  std/tables,
   std/parsecfg,
   strutils
 
 import ../utils/consts
 
-proc printHelp (config: string): void =
-  stdout.styledWriteLine(styleBright, "CONFIG PATHS\n")
-  echo("  Config file: ", config)
-  stdout.styledWriteLine(styleBright, "\nUSAGE\n")
-  stdout.styledWriteLine(styleDim, "  Print the config value to the terminal")
-  echo("  ssh-keys config [section.option]\n")
-  stdout.styledWriteLine(styleDim, "  Set the config value")
-  echo("  ssh-keys config [section.option] [value]")
-  echo("\nRun `ssh-keys config --help` for more information or view")
-  echo("the online docs: https://github.com/binaryben/sync-ssh-keys.")
+const
+  ConfigDoc * = "Get and set global config settings"
+  ConfigHelp * = {
+    "config": "Path to config file (Optional)",
+    "help": "CLIGEN-NOHELP",
+    "version": "CLIGEN-NOHELP",
+  }.toTable()
+  # ConfigShort = { "key": 'z' }.toTable()
+  ConfigUsage * = "ssh-keys $command <section.key> <value>\n\nOPTIONS\n$options"
 
 proc ensureConfigExists * (config: string): void =
   if(not fileExists(config)):
@@ -117,7 +116,6 @@ proc setOrGetConfig * (
       return 0
     else:
       ensureConfigExists(config)
-      printHelp(config)
       if(args.len > 3):
         return 1
       else:
