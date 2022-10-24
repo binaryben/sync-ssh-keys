@@ -4,7 +4,7 @@ import
   commands/install,
   commands/remove,
   commands/sync,
-  utils/consts
+  utils/paths
 
 const GlobalUsage = """${doc}USAGE
   $command <command> [flags] [args]
@@ -31,7 +31,10 @@ FEEDBACK
 
 when isMainModule:
   import cligen
+  import models/conf
+
   include cligen/mergeCfgEnv
+  ensureConfigExists()
 
   const nimbleFile = staticRead "../ssh_keys.nimble"
   let docLine = nimbleFile.fromNimble("description") & "\n\n\n"
@@ -45,9 +48,9 @@ when isMainModule:
   clCfg.helpSyntax = ""
 
   dispatchMulti(
-    [ "multi", cmdName="ssh-keys", doc=docLine, usage=GlobalUsage ],
+    [ "multi", cmdName=binName, doc=docLine, usage=GlobalUsage ],
     [addAuthorizedUser, cmdName="add", doc=AddDoc, help=AddHelp, usage=AddUsage ],
-    [setOrGetConfig, cmdName="config", doc=ConfigDoc, help=ConfigHelp, usage=ConfigUsage],
+    [configCommand, cmdName="config", doc=ConfigDoc, help=ConfigHelp, usage=ConfigUsage],
     [installService, cmdName="install"],
     [removeAuthorizedUser, cmdName="remove"],
     [syncAuthorizedUsers, cmdName="sync"]
