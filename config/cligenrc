@@ -1,2 +1,0 @@
-[templates]
-use      = "$command $args\n%(bold)\nOPTIONS\n$options"
