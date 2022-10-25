@@ -12,7 +12,6 @@ const
     "user": "ID of the user to get or modify (Optional)",
     "group": "ID of the group to get or modify (Optional)",
     "help": "CLIGEN-NOHELP",
-    "version": "CLIGEN-NOHELP",
   }.toTable()
   ConfigUsage * = "ssh-keys $command <section.key> <value>\n\n\e[1mOPTIONS\e[m\n$options"
 

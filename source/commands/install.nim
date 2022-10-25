@@ -8,7 +8,6 @@ const
   InstallDoc * = "Install '" & binName & " sync' as a cron service"
   InstallHelp * = {
     "help": "CLIGEN-NOHELP",
-    "version": "CLIGEN-NOHELP",
   }.toTable()
   InstallUsage * = binName & " $command"
 

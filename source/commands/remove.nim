@@ -8,7 +8,6 @@ const
   RemoveDoc * = "Remove a saved user or group"
   RemoveHelp * = {
     "help": "CLIGEN-NOHELP",
-    "version": "CLIGEN-NOHELP",
   }.toTable()
   RemoveUsage * = binName & " $command"
 

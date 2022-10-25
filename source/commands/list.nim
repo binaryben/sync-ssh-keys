@@ -8,7 +8,6 @@ const
   ListDoc * = "List saved config, users and groups"
   ListHelp * = {
     "help": "CLIGEN-NOHELP",
-    "version": "CLIGEN-NOHELP",
   }.toTable()
   ListUsage * = binName & " $command"
 

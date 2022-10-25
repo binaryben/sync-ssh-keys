@@ -17,7 +17,7 @@ $subcmds
 """ & "\e[1mFLAGS\e[m" & """
 
   --help      Show help for a command
-  --version   Show ssh-keys version
+  --version   Show $command version
 
 """ & "\e[1mEXAMPLES\e[m" & """
 
@@ -46,18 +46,20 @@ when isMainModule:
   const nimbleFile = staticRead "../ssh_keys.nimble"
   let docLine = nimbleFile.fromNimble("description") & "\n\n\n"
 
-  when defined(versionGit):
-    const vsn = staticExec "git describe --tags HEAD"
-    clCfg.version = vsn
-  else:
-    clCfg.version = nimbleFile.fromNimble "version"
-
   clCfg.helpSyntax = ""
   clCfg.hTabCols = @[ clOptKeys, clDescrip ]
   clCfg.useHdr = "${doc}\n\e[1mUSAGE\e[m\n  "
 
+  var cfPlusVersion = clCfg
+
+  when defined(versionGit):
+    const vsn = staticExec "git describe --tags HEAD"
+    cfPlusVersion.version = vsn
+  else:
+    cfPlusVersion.version = nimbleFile.fromNimble "version"
+
   dispatchMulti(
-    [ "multi", cmdName=binName, doc=docLine, usage=GlobalUsage ],
+    [ "multi", cmdName=binName, doc=docLine, usage=GlobalUsage, short={ "version": 'V' }, cf=cfPlusVersion ],
     [addAuthorizedUser, cmdName="add", doc=AddDoc, help=AddHelp, usage=AddUsage ],
     [ configCommand, cmdName="config", doc=ConfigDoc, help=ConfigHelp, usage=ConfigUsage ],
     [ installCommand, cmdName="install", doc=InstallDoc, help=InstallHelp, usage=InstallUsage ],

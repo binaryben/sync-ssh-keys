@@ -15,7 +15,6 @@ const
   AddDoc * = "Add a user or group to be synced"
   AddHelp * = {
     "help": "CLIGEN-NOHELP",
-    "version": "CLIGEN-NOHELP",
   }.toTable()
   # AddShort = { "key": 'z' }.toTable()
   AddUsage * = "ssh-keys $command [options]\n\n\e[1mOPTIONS\e[m\n$options"

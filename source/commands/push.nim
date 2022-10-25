@@ -10,7 +10,6 @@ const
   PushDoc * = "Push local SSH key to a provider"
   PushHelp * = {
     "help": "CLIGEN-NOHELP",
-    "version": "CLIGEN-NOHELP",
   }.toTable()
   PushUsage * = binName & " $command"
 
