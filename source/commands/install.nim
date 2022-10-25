@@ -1,8 +1,8 @@
-import
+import # Libraries
   std/tables
 
-import
-  ../utils/paths
+import # Local
+  ../utils/[logger, paths]
 
 const
   InstallDoc * = "Install '" & binName & " sync' as a cron service"
@@ -10,6 +10,9 @@ const
     "help": "CLIGEN-NOHELP",
   }.toTable()
   InstallUsage * = binName & " $command"
+
+let log = newLogger("cli:install")
+log.debug("command ready for cli dispatch")
 
 proc installCommand* (
   args: seq[string],

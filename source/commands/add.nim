@@ -1,15 +1,9 @@
-from std/tables import toTable
+import # Libraries
+  std/[os, parsecfg, strutils, tables, terminal]
 
-import
-  std/os,
-  std/terminal,
-  std/parsecfg,
-  strutils
-
-import
+import # Local
   ../models/conf,
-  ../utils/logger,
-  ../utils/paths
+  ../utils/[logger, paths]
 
 const
   AddDoc * = "Add a user or group to be synced"
@@ -19,7 +13,8 @@ const
   # AddShort = { "key": 'z' }.toTable()
   AddUsage * = "ssh-keys $command [options]\n\n\e[1mOPTIONS\e[m\n$options"
 
-var log = newLogger("cli:add")
+let log = newLogger("cli:add")
+log.debug("command ready for cli dispatch")
 
 proc getSecretFromUser (prompt: string, reason: string) : string =
   echo(reason)

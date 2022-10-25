@@ -1,8 +1,8 @@
-import
+import # Libraries
   std/tables
 
-import
-  ../utils/paths
+import # Local
+  ../utils/[logger, paths]
 
 const
   ListDoc * = "List saved config, users and groups"
@@ -10,6 +10,9 @@ const
     "help": "CLIGEN-NOHELP",
   }.toTable()
   ListUsage * = binName & " $command"
+
+let log = newLogger("cli:list")
+log.debug("command ready for cli dispatch")
 
 proc listCommand* (
   args: seq[string],

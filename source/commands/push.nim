@@ -1,10 +1,10 @@
 # Inspiration: https://github.com/unitpas/syncssh
 
-import
+import # Libraries
   std/tables
 
-import
-  ../utils/paths
+import # Local
+  ../utils/[logger, paths]
 
 const
   PushDoc * = "Push local SSH key to a provider"
@@ -12,6 +12,9 @@ const
     "help": "CLIGEN-NOHELP",
   }.toTable()
   PushUsage * = binName & " $command"
+
+let log = newLogger("cli:push")
+log.debug("command ready for cli dispatch")
 
 proc pushCommand* (
   args: seq[string],

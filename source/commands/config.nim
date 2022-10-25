@@ -1,9 +1,9 @@
-import
+import # Libraries
   std/tables
 
-import
+import # Local
   ../models/conf,
-  ../utils/paths
+  ../utils/[logger, paths]
 
 const
   ConfigDoc * = "Modify settings for the system, users or groups"
@@ -14,6 +14,9 @@ const
     "help": "CLIGEN-NOHELP",
   }.toTable()
   ConfigUsage * = "ssh-keys $command <section.key> <value>\n\n\e[1mOPTIONS\e[m\n$options"
+
+let log = newLogger("cli:config")
+log.debug("command ready for cli dispatch")
 
 proc configCommand * (
   file: string = getConfPath(),
