@@ -23,7 +23,8 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
-    "bin": true
+    "bin": true,
+    ".vscode": true
   },
   "explorerExclude.backup": {}
 }
