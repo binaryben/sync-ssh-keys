@@ -2,7 +2,8 @@ import # Libraries
   std/tables
 
 import # Local
-  ../utils/[logger, paths]
+  ../models/users,
+  ../utils/[consts, logger]
 
 const
   ListDoc * = "List saved config, users and groups"
@@ -15,7 +16,15 @@ let log = newLogger("cli:list")
 log.debug("command ready for cli dispatch")
 
 proc listCommand* (
+  user: string,
   args: seq[string],
 ): int =
-  echo "This is the list command"
+  let payload = getUser(user)
+  echo "{"
+  echo "  \"user\": \"" & payload.user & "\""
+  echo "  \"name\": \"" & payload.name & "\""
+  echo "  \"provider\": \"" & payload.provider & "\""
+  echo "  \"url\": \"" & payload.url & "\""
+  echo "  \"endpoint\": \"" & payload.endpoint & "\""
+  echo "}"
   return 1

@@ -2,7 +2,8 @@ import # Libraries
   std/tables
 
 import # Local
-  ../utils/[logger, paths]
+  ../models/users,
+  ../utils/[consts, logger]
 
 const
   RemoveDoc * = "Remove a saved user or group"
@@ -14,8 +15,14 @@ const
 let log = newLogger("cli:remove")
 log.debug("command ready for cli dispatch")
 
-proc removeCommand* (
+proc removeCommand * (
+  user: string,
   args: seq[string],
 ): int =
-  echo "This is the remove command"
-  return 1
+  log.debug("begin execution of command")
+  if removeUser(user):
+    log.success(user & " removed successfully")
+    return 0
+  else:
+    echo "Something went wrong"
+    return 1
