@@ -20,11 +20,20 @@ proc listCommand* (
   args: seq[string],
 ): int =
   let payload = getUser(user)
-  echo "{"
-  echo "  \"user\": \"" & payload.user & "\""
-  echo "  \"name\": \"" & payload.name & "\""
-  echo "  \"provider\": \"" & payload.provider & "\""
-  echo "  \"url\": \"" & payload.url & "\""
-  echo "  \"endpoint\": \"" & payload.endpoint & "\""
-  echo "}"
-  return 1
+
+  if payload.status == UserStatus.Exists:
+    echo "{"
+    echo "  \"user\": \"" & payload.user & "\""
+    echo "  \"name\": \"" & payload.name & "\""
+    echo "  \"provider\": \"" & payload.provider & "\""
+    echo "  \"api\": \"" & payload.api & "\""
+    echo "  \"token\": \"" & payload.token & "\""
+    echo "  \"meta\": \"" & payload.meta & "\""
+    echo "  \"keys\": \"" & payload.keys & "\""
+    echo "}"
+    return 0
+  elif payload.status == UserStatus.Ghost:
+    log.warn("User '" & user & "' not found")
+    log.console("Check the spelling and try again.")
+    log.console("User may be part of an authorized group instead of saved individually.")
+    return 1
