@@ -8,14 +8,14 @@ const github * = {
   "user": "/users/{{user}}", # https://docs.github.com/en/rest/users/users
   "keys": "/users/{{user}}/keys", # https://docs.github.com/en/rest/users/keys
   "org": "/orgs/{{org}}", # https://docs.github.com/en/rest/orgs/orgs
-  "team": "/teams/{{team}}", # https://docs.github.com/en/rest/teams/teams
+  "team": "/orgs/{{org}}/teams/{{team}}", # https://docs.github.com/en/rest/teams/teams
 }.toTable()
 
 const gitlab * = {
-  "url": "https://api.github.com",
+  "url": "https://gitlab.com",
   "token": "false",
-  "user": "/users/{{user}}",
-  "keys": "/users/{{user}}/keys",
+  "user": "/api/v4/users?username={{user}}", # https://docs.gitlab.com/ee/api/users.html
+  "keys": "/{{user}}.keys",
   "org": "/orgs/{{org}}",
   "team": "/teams/{{team}}",
 }.toTable()
@@ -41,8 +41,8 @@ const gitea * = {
 const git * = {
   "url": "required",
   "token": "false",
-  "user": "/users/{{user}}",
-  "keys": "/users/{{user}}/keys",
-  "org": "/orgs/{{org}}",
-  "team": "/teams/{{team}}",
+  "user": "required",
+  "keys": "false",
+  "org": "false",
+  "team": "false",
 }.toTable()
