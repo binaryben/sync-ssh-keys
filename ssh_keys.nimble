@@ -2,8 +2,7 @@ import std/strutils
 
 # Package
 
-packageName   = "sync-ssh-keys"
-version       = "0.1.0-alpha"
+version       = "0.1.0"
 author        = "Benny Michaels"
 description   = "Keep ~/.ssh/authorized_keys of a server in sync with public SSH keys"
 license       = "ISC"
