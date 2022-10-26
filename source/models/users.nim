@@ -8,9 +8,9 @@ import # Local
 let log = newLogger("models:users")
 
 # May be expanded later to source path from cli values
-proc getAuthorizedUserPath (): string =
+proc getAuthorizedUsersPath (): string =
   result = getConf("path.users")
-  log.debug("using locally configured authorized_users file")
+  log.debug("authorized_users file: " & result)
 
 type
   UserStatus * = enum
@@ -32,7 +32,7 @@ type
 
 proc userExists * (user: string): bool =
   log.debug("checking if " & user & " exists")
-  let file = getAuthorizedUserPath()
+  let file = getAuthorizedUsersPath()
   let authorizedUsers = loadConfig(file)
 
   for authorizedUser in authorizedUsers.sections:
@@ -47,7 +47,7 @@ proc getUser * (
   user: string,
   recursive: bool = true,
 ): User =
-  let file = getAuthorizedUserPath()
+  let file = getAuthorizedUsersPath()
   let authorizedUsers = loadConfig(file)
 
   result = User(
@@ -79,14 +79,14 @@ proc getUser * (
 proc saveUser * (
   user: User
 ): bool =
-  let file = getAuthorizedUserPath()
+  let file = getAuthorizedUsersPath()
   var authorizedUsers = loadConfig(file)
   return false
 
 proc removeUser * (
   user: string,
 ): bool =
-  let file = getAuthorizedUserPath()
+  let file = getAuthorizedUsersPath()
   var authorizedUsers = loadConfig(file)
   authorizedUsers.delSection(user)
   authorizedUsers.writeConfig(file)
