@@ -1,5 +1,3 @@
-import std/strutils
-
 # Package
 
 version       = "0.1.0"
@@ -47,16 +45,12 @@ proc getLocalBinDir(): string =
 proc getLocalBinPath(): string =
   return getLocalBinDir() & projectName().replace("_", "-")
 
-before build:
-  let localBinPath = getLocalBinPath()
-  if(fileExists(localBinPath)):
-    echo("   Removing ", localBinPath)
-    rmFile(localBinPath)
+# ! Only supports UNIX systems for now
+task link, "Link ./bin/" & projectName().replace("_", "-") & " to $NIMBLEDIR/bin/" & projectName().replace("_", "-"):
+  var buildBinary = getCurrentDir()
+  buildBinary.add("/bin/")
+  buildBinary.add(projectName().replace("_", "-"))
+  exec("ln -s " & buildBinary & " " & getLocalBinPath())
 
-after build:
-  if(dirExists(getLocalBinDir())):
-    let localBinPath = getLocalBinPath()
-    var buildBinary = "./bin/"
-    buildBinary.add(projectName().replace("_", "-"))
-    echo("    Copying ", buildBinary, " to ", localBinPath)
-    cpFile(buildBinary, localBinPath)
+task unlink, "Remove $NIMBLEDIR/bin/" & projectName().replace("_", "-"):
+  rmFile(getLocalBinPath())
