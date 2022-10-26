@@ -2,7 +2,8 @@ from logging import Logger
 import
   std/strutils,
   std/terminal
-import /paths
+
+import /consts
 
 type
   SyslogLevel* = enum
@@ -39,7 +40,6 @@ type
     bottom,
     both,
     noSpace
-
 
 proc newLogger * (scope: string, level: SyslogLevel = INFO, console: bool = true): SimpleLogger =
   new result

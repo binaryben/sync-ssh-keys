@@ -1,9 +1,10 @@
 import # Libraries
+  cligen,
   std/[os, parsecfg, strutils, tables, terminal]
 
 import # Local
   ../models/conf,
-  ../utils/[logger, paths]
+  ../utils/[consts, logger, paths]
 
 const
   AddDoc * = "Add a user or group to be synced"
@@ -26,7 +27,7 @@ proc getSecretFromUser (prompt: string, reason: string) : string =
     secret = "false"
   return secret
 
-proc addAuthorizedUser* (
+proc addAuthorizedUser * (
   config: string = getConfPath(),
   user: string = "",
   name: string = "",
@@ -36,25 +37,26 @@ proc addAuthorizedUser* (
   interactive: bool = false,
   args: seq[string],
 ): int =
-  log.debug("Starting execution of add command")
+  log.debug("begin execution of command")
+
+  if user == "":
+    log.warn("Please provide a username to add")
+    raise newException(HelpError, "Run '" & binName & " help add' for more information")
 
   let usersFile = getConf("path.users")
   if(not fileExists(usersFile)):
     writeFile(usersFile, "")
 
-  if(user != ""):
-    var users = loadConfig(usersFile)
-    users.setSectionKey(user, "provider", provider)
-    if(name != ""):
-      users.setSectionKey(user, "name", name)
-    if(url != ""):
-      users.setSectionKey(user, "url", url)
-    if(endpoint != ""):
-      users.setSectionKey(user, "endpoint", endpoint)
+  var users = loadConfig(usersFile)
+  users.setSectionKey(user, "provider", provider)
+  if(name != ""):
+    users.setSectionKey(user, "name", name)
+  if(url != ""):
+    users.setSectionKey(user, "url", url)
+  if(endpoint != ""):
+    users.setSectionKey(user, "endpoint", endpoint)
 
-    users.writeConfig(usersFile)
-
-  return 1
+  users.writeConfig(usersFile)
 
 proc addAuthorizedGroup* (
   config: string = getConfPath(),

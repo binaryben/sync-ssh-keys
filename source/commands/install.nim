@@ -2,7 +2,7 @@ import # Libraries
   std/tables
 
 import # Local
-  ../utils/[logger, paths]
+  ../utils/[consts, logger]
 
 const
   InstallDoc * = "Install '" & binName & " sync' as a cron service"

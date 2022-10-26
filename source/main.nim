@@ -1,6 +1,6 @@
 import
   commands/[add, config, install, list, push, remove, sync],
-  utils/[logger, paths]
+  utils/[consts, logger]
 
 let log = newLogger("cli")
 log.debug("all commands ready for dispatch")

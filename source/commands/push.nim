@@ -4,7 +4,7 @@ import # Libraries
   std/tables
 
 import # Local
-  ../utils/[logger, paths]
+  ../utils/[consts, logger]
 
 const
   PushDoc * = "Push local SSH key to a provider"
