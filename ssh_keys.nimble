@@ -7,7 +7,7 @@ author        = "Benny Michaels"
 description   = "Keep ~/.ssh/authorized_keys of a server in sync with public SSH keys"
 license       = "ISC"
 srcDir        = "source"
-namedBin      = {"main": "ssh-keys"}.toTable()
+namedBin      = {"main": projectName().replace("_", "-")}.toTable()
 binDir        = "bin"
 
 # Dependencies
