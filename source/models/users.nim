@@ -80,7 +80,7 @@ proc saveUser * (
   user: User
 ): bool =
   let file = getAuthorizedUsersPath()
-  var authorizedUsers = loadConfig(file)
+  # var authorizedUsers = loadConfig(file)
   return false
 
 proc removeUser * (

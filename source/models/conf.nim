@@ -68,9 +68,9 @@ type
     section: string
     subsection: string
 
-  ConfResult = object
-    value: string
-    default: bool
+  # ConfResult = object
+  #   value: string
+  #   default: bool
 
 proc splitConfKey (key: string): ConfKey =
   let splitKey = split(key, ".", 1)
