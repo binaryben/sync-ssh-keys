@@ -26,13 +26,11 @@ when defined(nimdistros):
   * HINT: These procedures are available: https://nim-lang.org/docs/nimscript.html#12
 ]#
 
-before build:
+proc getLocalBinDir(): string =
   var localBinPath: string
-  var defaultBinName = projectName()
   var defaultNimblePath = getEnv("HOME")
   var defaultLocalPath = getEnv("HOME")
 
-  defaultBinName = defaultBinName.replace("_", "-")
   defaultNimblePath.add("/.nimble")
   defaultLocalPath.add("/.local")
 
@@ -44,34 +42,22 @@ before build:
     localBinPath = defaultLocalPath
 
   localBinPath.add("/bin/")
-  localBinPath.add(defaultBinName)
 
+  return localBinPath
+
+proc getLocalBinPath(): string =
+  return getLocalBinDir() & projectName().replace("_", "-")
+
+before build:
+  let localBinPath = getLocalBinPath()
   if(fileExists(localBinPath)):
     echo("   Removing ", localBinPath)
     rmFile(localBinPath)
 
 after build:
-  var localBinPath: string
-  var defaultBinName = projectName()
-  var defaultNimblePath = getEnv("HOME")
-  var defaultLocalPath = getEnv("HOME")
-
-  defaultBinName = defaultBinName.replace("_", "-")
-  defaultNimblePath.add("/.nimble")
-  defaultLocalPath.add("/.local")
-
-  if (existsEnv("NIMBLEDIR") and dirExists(getEnv("NIMBLEDIR"))):
-    localBinPath = getEnv("NIMBLEDIR")
-  elif (dirExists(defaultNimblePath)):
-    localBinPath = defaultNimblePath
-  else:
-    localBinPath = defaultLocalPath
-
-  localBinPath.add("/bin/")
-
-  if(dirExists(localBinPath)):
-    localBinPath.add(defaultBinName)
+  if(dirExists(getLocalBinDir())):
+    let localBinPath = getLocalBinPath()
     var buildBinary = "./bin/"
-    buildBinary.add(defaultBinName)
+    buildBinary.add(projectName().replace("_", "-"))
     echo("    Copying ", buildBinary, " to ", localBinPath)
     cpFile(buildBinary, localBinPath)
